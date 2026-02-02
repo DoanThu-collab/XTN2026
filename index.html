@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tài xế nhí</title>
+    <title>Tài Xế Nhí - Full 4 Vòng</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     
@@ -44,22 +44,26 @@
             constructor() { super('MainMenu'); }
             create() {
                 this.add.rectangle(width/2, height/2, width, height, 0x87CEEB);
-                this.add.text(width/2, 120, 'TÀI XẾ NHÍ', { fontSize: '68px', color: '#000', fontStyle: '900' }).setOrigin(0.5);
-                this.add.text(width/2, 190, 'Học luật giao thông thật vui!', { fontSize: '26px', color: '#333' }).setOrigin(0.5);
+                this.add.text(width/2, 80, 'TÀI XẾ NHÍ', { fontSize: '70px', color: '#000', fontStyle: '900' }).setOrigin(0.5);
+                this.add.text(width/2, 150, 'Học luật giao thông thật vui!', { fontSize: '26px', color: '#333' }).setOrigin(0.5);
 
-                const createBtn = (x, label, color, scene) => {
-                    const btn = this.add.rectangle(x, 380, 240, 120, color).setInteractive({ useHandCursor: true });
+                const createBtn = (x, y, label, color, scene) => {
+                    const btn = this.add.rectangle(x, y, 220, 100, color).setInteractive({ useHandCursor: true });
                     btn.setStrokeStyle(4, 0xFFFFFF);
-                    this.add.rectangle(x + 5, 380 + 5, 240, 120, 0x000000, 0.2).setDepth(-1);
-                    this.add.text(x, 380, label, { fontSize: '28px', color: '#FFF', fontStyle: 'bold', align: 'center' }).setOrigin(0.5);
+                    this.add.rectangle(x + 5, y + 5, 220, 100, 0x000000, 0.2).setDepth(-1);
+                    this.add.text(x, y, label, { fontSize: '24px', color: '#FFF', fontStyle: 'bold', align: 'center' }).setOrigin(0.5);
                     btn.on('pointerdown', () => this.scene.start(scene));
                     btn.on('pointerover', () => this.tweens.add({targets: btn, scale: 1.05, duration: 100}));
                     btn.on('pointerout', () => this.tweens.add({targets: btn, scale: 1, duration: 100}));
                 };
 
-                createBtn(width/2 - 300, 'VÒNG 1\nĐèn tín hiệu', 0x4CAF50, 'Level1');
-                createBtn(width/2, 'VÒNG 2\nNhường đường', 0x2196F3, 'Level2');
-                createBtn(width/2 + 300, 'VÒNG 3\nQua đường', 0xFF9800, 'Level3');
+                // Hàng 1
+                createBtn(width/2 - 250, 300, 'VÒNG 1\nĐèn Tín Hiệu', 0x4CAF50, 'Level1');
+                createBtn(width/2 + 250, 300, 'VÒNG 2\nNhường Đường', 0x2196F3, 'Level2');
+                
+                // Hàng 2
+                createBtn(width/2 - 250, 450, 'VÒNG 3\nQua Đường', 0xFF9800, 'Level3');
+                createBtn(width/2 + 250, 450, 'VÒNG 4\nTrắc Nghiệm', 0x9b59b6, 'Level4');
             }
         }
 
@@ -68,7 +72,7 @@
             constructor() { super('Level1'); }
             create() {
                 this.add.rectangle(width/2, height/2, width, height, 0xC4E538); 
-                this.add.text(width/2, 50, 'Vòng 1: Nhìn đèn đoán lệnh', { fontSize: '32px', color: '#006266', fontStyle: 'bold' }).setOrigin(0.5);
+                this.add.text(width/2, 50, 'Vòng 1: Nhìn Đèn Đoán Lệnh', { fontSize: '32px', color: '#006266', fontStyle: 'bold' }).setOrigin(0.5);
                 this.roundText = this.add.text(width - 100, 50, 'Lượt: 1/3', { fontSize: '24px', color: '#FFF', backgroundColor: '#000', padding: {x:10, y:5} }).setOrigin(0.5);
 
                 this.add.rectangle(width/2, height/2 + 50, width, 180, 0x57606f);
@@ -88,7 +92,6 @@
                 };
 
                 this.carContainer = this.add.container(150, height/2 + 30);
-                // Fix xe bus quay đầu lại cho đúng chiều đi
                 const bus = this.add.text(0, 0, '🚌', { fontSize: '100px' }).setOrigin(0.5);
                 bus.setScale(-1, 1); 
                 this.carContainer.add(bus);
@@ -152,9 +155,9 @@
                     });
                 } else {
                     let hint = "";
-                    if (this.currentColor === 'red') hint = "Đèn Đỏ phải dừng lại nhé!";
-                    else if (this.currentColor === 'yellow') hint = "Đèn Vàng phải di chậm quan sát!";
-                    else hint = "Đèn Xanh mới được đi!";
+                    if (this.currentColor === 'red') hint = "Đèn Đỏ phải Dừng lại nhé!";
+                    else if (this.currentColor === 'yellow') hint = "Đèn Vàng phải Đi chậm quan sát!";
+                    else hint = "Đèn Xanh mới được Đi!";
 
                     this.feedback.setText(`SAI RỒI! ${hint}`).setColor('#EA2027').setAlpha(1);
                     this.tweens.add({ targets: this.carContainer, x: this.carContainer.x + 10, duration: 50, yoyo: true, repeat: 3 });
@@ -168,7 +171,7 @@
             }
         }
 
-        // --- LEVEL 2: NHƯỜNG ĐƯỜNG (FIX: CẢNH BÁO CỤ THỂ) ---
+        // --- LEVEL 2: NHƯỜNG ĐƯỜNG ---
         class Level2 extends Phaser.Scene {
             constructor() { super('Level2'); }
             create() {
@@ -181,13 +184,13 @@
                 this.add.rectangle(width/2, height/2, 216, 216, roadColor).setStrokeStyle(2, 0xFFFFFF);
 
                 this.add.text(width/2, 40, 'Vòng 2: Thứ tự đi trước?', { fontSize: '32px', color: '#000', fontStyle: 'bold', backgroundColor: '#FFF', padding: {x:10, y:5} }).setOrigin(0.5);
-                
-                // THỨ TỰ ƯU TIÊN: HỎA -> QUÂN -> CÔNG -> THƯƠNG
+                this.add.text(width/2, 90, '(Bấm chọn lần lượt 4 xe để giải tỏa ngã tư)', { fontSize: '20px', color: '#333' }).setOrigin(0.5);
+
                 this.targetOrder = [
-                    { type: '🚒', name: 'Xe Cứu hỏa', id: 'fire' },
-                    { type: '🚛', name: 'Xe Quân đội', id: 'military' }, 
-                    { type: '🚓', name: 'Xe Cảnh sát', id: 'police' },
-                    { type: '🚑', name: 'Xe Cứu thương', id: 'ambulance' }
+                    { type: '🚒', name: 'Xe Cứu Hỏa', id: 'fire' },
+                    { type: '🚛', name: 'Xe Quân Đội', id: 'military' }, 
+                    { type: '🚓', name: 'Xe Cảnh Sát', id: 'police' },
+                    { type: '🚑', name: 'Xe Cứu Thương', id: 'ambulance' }
                 ];
                 
                 this.remainingVehicles = [...this.targetOrder];
@@ -216,7 +219,6 @@
                     
                     container.add([sprite, label]);
 
-                    // Xoay đầu xe vào trong
                     if (pos.dir === 'right') sprite.setScale(-1, 1); 
                     else if (pos.dir === 'left') sprite.setScale(1, 1);
                     else if (pos.dir === 'down') sprite.setAngle(-90);
@@ -236,7 +238,6 @@
                 const correctVehicle = this.remainingVehicles[0];
 
                 if (container.vehicleData.id === correctVehicle.id) {
-                    // ĐÚNG
                     this.showFeedback(true, `Chính xác! ${container.vehicleData.name} đi trước.`);
                     this.remainingVehicles.shift();
 
@@ -261,7 +262,6 @@
                     this.tweens.add({ targets: like, scale: 1.5, alpha: 0, duration: 800, onComplete: () => like.destroy() });
 
                 } else {
-                    // SAI: Cảnh báo cụ thể xe nào được ưu tiên hơn
                     this.showFeedback(false, `Chưa đúng! ${correctVehicle.name} được ưu tiên hơn.`);
                     this.tweens.add({
                         targets: container,
@@ -274,11 +274,11 @@
             }
 
             showFeedback(isCorrect, msg) {
-                const color = isCorrect ? '#00b894' : '#f0932b';
+                const color = isCorrect ? '#00b894' : '#d63031';
                 if (this.feedbackTxt) this.feedbackTxt.destroy();
                 
                 this.feedbackTxt = this.add.text(width/2, height/2, msg, {
-                    fontSize: '24px', color: '#FFF', fontStyle: 'bold', backgroundColor: color, padding: {x:20, y:15}
+                    fontSize: '28px', color: '#FFF', fontStyle: 'bold', backgroundColor: color, padding: {x:20, y:15}
                 }).setOrigin(0.5).setDepth(10);
                 
                 this.time.delayedCall(2000, () => {
@@ -420,10 +420,133 @@
             }
         }
 
+        // --- LEVEL 4: TRẮC NGHIỆM ---
+        class Level4 extends Phaser.Scene {
+            constructor() { super('Level4'); }
+            create() {
+                this.add.rectangle(width/2, height/2, width, height, 0x2c3e50); // Màu nền tối hơn cho tập trung
+                
+                this.questions = [
+                    {q: "Trong vở kịch, gia đình bạn Tí đã đi đâu?", a: ["A. Đi chợ hoa", "B. Mua quần áo", "C. Về quê thăm Ông Bà", "D. Xem múa lân"], c: 2},
+                    {q: "Năm 2026 là năm con giáp nào?", a: ["A. Rồng", "B. Ngựa", "C. Hổ", "D. Trâu"], c: 1},
+                    {q: "Bố Tí quyết định sai lầm gì khi xe hỏng?", a: ["A. Gọi taxi", "B. Kẹp bốn trên xe máy", "C. Mẹ ở nhà", "D. Đi bộ"], c: 1},
+                    {q: "Sao Tí không muốn cài quai mũ?", a: ["A. Quên mũ", "B. Sợ hỏng tóc", "C. Không đẹp", "D. Mũ hỏng"], c: 1},
+                    {q: "Sai lầm của Mén khi thấy múa lân?", a: ["A. Nhảy múa", "B. Vùng tay chạy qua đường", "C. Quên lì xì", "D. Khóc nhè"], c: 1},
+                    {q: "Điều quan trọng nhất ngày Tết là gì?", a: ["A. Bánh chưng", "B. Quần áo đẹp", "C. Đoàn viên & An toàn", "D. Tiền lì xì"], c: 2},
+                    {q: "Vành mũ nên cách chân mày bao nhiêu?", a: ["A. Sát chân mày", "B. 2 ngón tay", "C. 5 ngón tay", "D. Che mắt"], c: 1},
+                    {q: "Âm thanh báo hiệu quai mũ cài đúng?", a: ["A. Bíp", "B. Tách", "C. Rắc", "D. Im lặng"], c: 1},
+                    {q: "Kiểm tra quai mũ bằng cách đút mấy ngón tay?", a: ["A. 1 ngón", "B. 2 ngón", "C. 4 ngón", "D. Cả bàn tay"], c: 1},
+                    {q: "Xe máy chở tối đa mấy người lớn?", a: ["A. 1 người", "B. 2 người (tính cả lái xe)", "C. 3 người", "D. 4 người"], c: 1},
+                    {q: "Trường hợp nào được chở 3 người?", a: ["A. Đi chơi", "B. Cấp cứu / Trẻ em <14t", "C. Chở hàng", "D. Không có"], c: 1},
+                    {q: "Tác dụng chính của mũ bảo hiểm?", a: ["A. Làm đẹp", "B. Che nắng", "C. Bảo vệ đầu", "D. Đối phó công an"], c: 2},
+                    {q: "Gặp đèn vàng phải làm gì?", a: ["A. Chạy nhanh", "B. Dừng lại trước vạch", "C. Đi tiếp", "D. Quay đầu"], c: 1},
+                    {q: "Thứ tự xe ưu tiên?", a: ["A. Công-Thương-Hỏa-Quân", "B. Hỏa-Quân-Công-Thương", "C. Thương-Công-Hỏa-Quân", "D. Xe to đi trước"], c: 1},
+                    {q: "Xe 'Hỏa' là xe gì?", a: ["A. Quân đội", "B. Cảnh sát", "C. Chữa cháy", "D. Chở củi"], c: 2},
+                    {q: "Xe 'Thương' là xe gì?", a: ["A. Thương gia", "B. Cứu thương", "C. Chở hàng", "D. Xe đạp"], c: 1},
+                    {q: "Gặp xe cứu thương hú còi phải làm gì?", a: ["A. Tăng tốc", "B. Nhường đường", "C. Dừng xem", "D. Chặn lại"], c: 1},
+                    {q: "Đèn đỏ có ý nghĩa gì?", a: ["A. Đi chậm", "B. Dừng lại", "C. Nhìn công an", "D. Chạy nhanh"], c: 1},
+                    {q: "Nên qua đường ở đâu?", a: ["A. Bóng râm", "B. Vạch kẻ đường", "C. Dải phân cách", "D. Chỗ vắng"], c: 1},
+                    {q: "Quy tắc quan sát khi qua đường?", a: ["A. Phải-Trái-Phải", "B. Trái-Phải-Trái", "C. Nhắm mắt", "D. Nhìn thẳng"], c: 1},
+                    {q: "Tại sao trẻ em nên giơ tay khi qua đường?", a: ["A. Chào hỏi", "B. Tập thể dục", "C. Để tài xế dễ thấy", "D. Giữ thăng bằng"], c: 2},
+                    {q: "Đi bộ đường không vỉa hè thì đi đâu?", a: ["A. Giữa đường", "B. Sát mép phải", "C. Zắc-zắc", "D. Bên trái"], c: 1},
+                    {q: "Trẻ em có nên tự qua đường một mình?", a: ["A. Có", "B. Không, cần người lớn", "C. Có nếu chạy nhanh", "D. Tùy ý"], c: 1},
+                    {q: "Nhanh một giây, chậm cả đời nghĩa là gì?", a: ["A. Đi nhanh tiết kiệm", "B. Không vội vàng gây tai nạn", "C. Đi chậm trễ học", "D. Đi nhanh có quà"], c: 1},
+                    {q: "Hành vi nào dễ gây tai nạn?", a: ["A. Đội mũ", "B. Đi đúng làn", "C. Lạng lách", "D. Nhường đường"], c: 2},
+                    {q: "Hậu quả không tuân thủ luật?", a: ["A. Bị thương tích", "B. Bị cười", "C. Không sao", "D. Được nể phục"], c: 0},
+                    {q: "Uống rượu bia lái xe gây ra gì?", a: ["A. Tỉnh táo", "B. Mất kiểm soát", "C. Không hại", "D. Chạy nhanh"], c: 1},
+                    {q: "Hành động giao thông văn minh?", a: ["A. Tuân thủ luật", "B. Bóp còi", "C. Vứt rác", "D. Tranh đường"], c: 0},
+                    {q: "Mức phạt vượt đèn đỏ xe máy (tham khảo)?", a: ["A. 1-2 triệu", "B. 800k - 1 triệu", "C. 500k", "D. Không phạt"], c: 1}, // Adjusted to sensible bike fine roughly
+                    {q: "Điều quan trọng nhất khi giao thông ngày Tết?", a: ["A. Đi nhanh", "B. An toàn & Đúng luật", "C. Chở nhiều quà", "D. Xe mới"], c: 1}
+                ];
+
+                this.currentQ = 0;
+                this.score = 0;
+
+                this.setupUI();
+                this.showQuestion();
+            }
+
+            setupUI() {
+                this.qText = this.add.text(width/2, 100, '', { fontSize: '24px', color: '#FFF', align: 'center', wordWrap: { width: 800 } }).setOrigin(0.5);
+                this.scoreText = this.add.text(width - 100, 50, 'Điểm: 0', { fontSize: '24px', color: '#f1c40f' }).setOrigin(0.5);
+                this.progressText = this.add.text(100, 50, 'Câu: 1/30', { fontSize: '24px', color: '#FFF' }).setOrigin(0.5);
+
+                this.btns = [];
+                const positions = [
+                    {x: width/2 - 220, y: 250}, {x: width/2 + 220, y: 250},
+                    {x: width/2 - 220, y: 380}, {x: width/2 + 220, y: 380}
+                ];
+
+                for (let i = 0; i < 4; i++) {
+                    const btn = this.add.rectangle(positions[i].x, positions[i].y, 400, 100, 0x34495e).setInteractive({useHandCursor: true});
+                    btn.setStrokeStyle(2, 0xFFFFFF);
+                    const txt = this.add.text(positions[i].x, positions[i].y, '', { fontSize: '20px', color: '#FFF', align: 'center', wordWrap: { width: 380 } }).setOrigin(0.5);
+                    
+                    btn.on('pointerdown', () => this.checkAnswer(i));
+                    // Hover effect
+                    btn.on('pointerover', () => btn.setFillStyle(0x4a69bd));
+                    btn.on('pointerout', () => btn.setFillStyle(0x34495e));
+
+                    this.btns.push({ btn, txt });
+                }
+            }
+
+            showQuestion() {
+                const qData = this.questions[this.currentQ];
+                this.qText.setText(qData.q);
+                this.progressText.setText(`Câu: ${this.currentQ + 1}/${this.questions.length}`);
+                
+                // Reset buttons
+                this.btns.forEach((b, i) => {
+                    b.txt.setText(qData.a[i]);
+                    b.btn.setFillStyle(0x34495e).setInteractive();
+                });
+            }
+
+            checkAnswer(idx) {
+                const correctIdx = this.questions[this.currentQ].c;
+                const selectedBtn = this.btns[idx];
+                const correctBtn = this.btns[correctIdx];
+
+                // Disable all buttons
+                this.btns.forEach(b => b.btn.disableInteractive());
+
+                if (idx === correctIdx) {
+                    this.score++;
+                    this.scoreText.setText(`Điểm: ${this.score}`);
+                    selectedBtn.btn.setFillStyle(0x27ae60); // Green
+                } else {
+                    selectedBtn.btn.setFillStyle(0xc0392b); // Red
+                    correctBtn.btn.setFillStyle(0x27ae60); // Show correct one
+                }
+
+                // Next question
+                this.time.delayedCall(1500, () => {
+                    this.currentQ++;
+                    if (this.currentQ < this.questions.length) {
+                        this.showQuestion();
+                    } else {
+                        this.finishLevel();
+                    }
+                });
+            }
+
+            finishLevel() {
+                this.add.rectangle(width/2, height/2, 600, 400, 0x000000, 0.9).setDepth(100);
+                this.add.text(width/2, height/2 - 50, 'HOÀN THÀNH!', { fontSize: '50px', color: '#f1c40f', fontStyle: 'bold' }).setOrigin(0.5).setDepth(101);
+                this.add.text(width/2, height/2 + 20, `Tổng điểm: ${this.score}/30`, { fontSize: '40px', color: '#FFF' }).setOrigin(0.5).setDepth(101);
+                
+                const backBtn = this.add.text(width/2, height/2 + 100, 'VỀ MENU', { fontSize: '30px', backgroundColor: '#3498db', padding: {x:20, y:10} })
+                    .setOrigin(0.5).setInteractive({useHandCursor:true}).setDepth(101);
+                
+                backBtn.on('pointerdown', () => this.scene.start('MainMenu'));
+            }
+        }
+
         const config = {
             type: Phaser.AUTO, width: width, height: height,
             parent: 'game-container', backgroundColor: '#000000',
-            scene: [PreloadScene, MainMenu, Level1, Level2, Level3],
+            scene: [PreloadScene, MainMenu, Level1, Level2, Level3, Level4],
             scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH }
         };
         new Phaser.Game(config);
