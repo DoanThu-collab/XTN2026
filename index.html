@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tài Xế Nhí - Full Game (Colorful UI)</title>
+    <title>Tài xế nhí</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     
@@ -44,7 +44,7 @@
             constructor() { super('MainMenu'); }
             create() {
                 this.add.rectangle(width/2, height/2, width, height, 0x87CEEB);
-                this.add.text(width/2, 80, 'TÀI XẾ NHÍ', { fontSize: '70px', color: '#000', fontStyle: '900' }).setOrigin(0.5);
+                this.add.text(width/2, 80, 'TÀI XẾ NHÍ', { fontSize: '68px', color: '#000', fontStyle: '900' }).setOrigin(0.5);
                 this.add.text(width/2, 150, 'Học luật giao thông thật vui!', { fontSize: '26px', color: '#333' }).setOrigin(0.5);
 
                 const createBtn = (x, y, label, color, scene) => {
@@ -57,10 +57,10 @@
                     btn.on('pointerout', () => this.tweens.add({targets: btn, scale: 1, duration: 100}));
                 };
 
-                createBtn(width/2 - 250, 300, 'VÒNG 1\nĐèn Tín Hiệu', 0x4CAF50, 'Level1');
-                createBtn(width/2 + 250, 300, 'VÒNG 2\nNhường Đường', 0x2196F3, 'Level2');
-                createBtn(width/2 - 250, 450, 'VÒNG 3\nQua Đường', 0xFF9800, 'Level3');
-                createBtn(width/2 + 250, 450, 'VÒNG 4\nTrắc Nghiệm', 0x9b59b6, 'Level4');
+                createBtn(width/2 - 250, 300, 'VÒNG 1\nĐèn tín hiệu', 0x4CAF50, 'Level1');
+                createBtn(width/2 + 250, 300, 'VÒNG 2\nNhường dường', 0x2196F3, 'Level2');
+                createBtn(width/2 - 250, 450, 'VÒNG 3\nQua đường', 0xFF9800, 'Level3');
+                createBtn(width/2 + 250, 450, 'VÒNG 4\nTrắc nghiệm', 0x9b59b6, 'Level4');
             }
         }
 
@@ -69,7 +69,7 @@
             constructor() { super('Level1'); }
             create() {
                 this.add.rectangle(width/2, height/2, width, height, 0xC4E538); 
-                this.add.text(width/2, 50, 'Vòng 1: Nhìn Đèn Đoán Lệnh', { fontSize: '32px', color: '#006266', fontStyle: 'bold' }).setOrigin(0.5);
+                this.add.text(width/2, 50, 'Vòng 1: Nhìn đèn đoán lệnh', { fontSize: '32px', color: '#006266', fontStyle: 'bold' }).setOrigin(0.5);
                 this.roundText = this.add.text(width - 100, 50, 'Lượt: 1/3', { fontSize: '24px', color: '#FFF', backgroundColor: '#000', padding: {x:10, y:5} }).setOrigin(0.5);
 
                 this.add.rectangle(width/2, height/2 + 50, width, 180, 0x57606f);
@@ -152,9 +152,9 @@
                     });
                 } else {
                     let hint = "";
-                    if (this.currentColor === 'red') hint = "Đèn Đỏ phải Dừng lại nhé!";
-                    else if (this.currentColor === 'yellow') hint = "Đèn Vàng phải Đi chậm quan sát!";
-                    else hint = "Đèn Xanh mới được Đi!";
+                    if (this.currentColor === 'red') hint = "Đèn Đỏ phải dừng lại nhé!";
+                    else if (this.currentColor === 'yellow') hint = "Đèn Vàng phải đi chậm quan sát!";
+                    else hint = "Đèn Xanh mới được đi!";
 
                     this.feedback.setText(`SAI RỒI! ${hint}`).setColor('#EA2027').setAlpha(1);
                     this.tweens.add({ targets: this.carContainer, x: this.carContainer.x + 10, duration: 50, yoyo: true, repeat: 3 });
@@ -184,10 +184,10 @@
                 this.add.text(width/2, 90, '(Bấm chọn lần lượt 4 xe để giải tỏa ngã tư)', { fontSize: '20px', color: '#333' }).setOrigin(0.5);
 
                 this.targetOrder = [
-                    { type: '🚒', name: 'Xe Cứu Hỏa', id: 'fire' },
-                    { type: '🚛', name: 'Xe Quân Đội', id: 'military' }, 
-                    { type: '🚓', name: 'Xe Cảnh Sát', id: 'police' },
-                    { type: '🚑', name: 'Xe Cứu Thương', id: 'ambulance' }
+                    { type: '🚒', name: 'Xe Cứu hỏa', id: 'fire' },
+                    { type: '🚛', name: 'Xe Quân đội', id: 'military' }, 
+                    { type: '🚓', name: 'Xe Cảnh sát', id: 'police' },
+                    { type: '🚑', name: 'Xe Cứu thương', id: 'ambulance' }
                 ];
                 
                 this.remainingVehicles = [...this.targetOrder];
@@ -459,7 +459,7 @@
 
                 this.currentQ = 0;
                 this.score = 0;
-                this.btnColors = [0x2980b9, 0x8e44ad, 0xd35400, 0xc0392b]; // Xanh, Tím, Cam, Đỏ đậm
+                this.btnColors = [0x0984e3, 0x6c5ce7, 0xe17055, 0xe84393]; 
 
                 this.setupUI();
                 this.showQuestion();
