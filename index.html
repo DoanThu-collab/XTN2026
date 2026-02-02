@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tài Xế Nhí - Full 4 Vòng</title>
+    <title>Tài Xế Nhí - Full Game (Colorful UI)</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     
@@ -57,11 +57,8 @@
                     btn.on('pointerout', () => this.tweens.add({targets: btn, scale: 1, duration: 100}));
                 };
 
-                // Hàng 1
                 createBtn(width/2 - 250, 300, 'VÒNG 1\nĐèn Tín Hiệu', 0x4CAF50, 'Level1');
                 createBtn(width/2 + 250, 300, 'VÒNG 2\nNhường Đường', 0x2196F3, 'Level2');
-                
-                // Hàng 2
                 createBtn(width/2 - 250, 450, 'VÒNG 3\nQua Đường', 0xFF9800, 'Level3');
                 createBtn(width/2 + 250, 450, 'VÒNG 4\nTrắc Nghiệm', 0x9b59b6, 'Level4');
             }
@@ -274,11 +271,11 @@
             }
 
             showFeedback(isCorrect, msg) {
-                const color = isCorrect ? '#00b894' : '#d63031';
+                const color = isCorrect ? '#00b894' : '#f0932b';
                 if (this.feedbackTxt) this.feedbackTxt.destroy();
                 
                 this.feedbackTxt = this.add.text(width/2, height/2, msg, {
-                    fontSize: '28px', color: '#FFF', fontStyle: 'bold', backgroundColor: color, padding: {x:20, y:15}
+                    fontSize: '24px', color: '#FFF', fontStyle: 'bold', backgroundColor: color, padding: {x:20, y:15}
                 }).setOrigin(0.5).setDepth(10);
                 
                 this.time.delayedCall(2000, () => {
@@ -420,11 +417,12 @@
             }
         }
 
-        // --- LEVEL 4: TRẮC NGHIỆM ---
+        // --- LEVEL 4: TRẮC NGHIỆM (GIAO DIỆN MỚI HẤP DẪN HƠN) ---
         class Level4 extends Phaser.Scene {
             constructor() { super('Level4'); }
             create() {
-                this.add.rectangle(width/2, height/2, width, height, 0x2c3e50); // Màu nền tối hơn cho tập trung
+                // Nền sáng sủa, vui vẻ hơn
+                this.add.rectangle(width/2, height/2, width, height, 0xFFD54F); // Vàng cam sáng
                 
                 this.questions = [
                     {q: "Trong vở kịch, gia đình bạn Tí đã đi đâu?", a: ["A. Đi chợ hoa", "B. Mua quần áo", "C. Về quê thăm Ông Bà", "D. Xem múa lân"], c: 2},
@@ -455,21 +453,28 @@
                     {q: "Hậu quả không tuân thủ luật?", a: ["A. Bị thương tích", "B. Bị cười", "C. Không sao", "D. Được nể phục"], c: 0},
                     {q: "Uống rượu bia lái xe gây ra gì?", a: ["A. Tỉnh táo", "B. Mất kiểm soát", "C. Không hại", "D. Chạy nhanh"], c: 1},
                     {q: "Hành động giao thông văn minh?", a: ["A. Tuân thủ luật", "B. Bóp còi", "C. Vứt rác", "D. Tranh đường"], c: 0},
-                    {q: "Mức phạt vượt đèn đỏ xe máy (tham khảo)?", a: ["A. 1-2 triệu", "B. 800k - 1 triệu", "C. 500k", "D. Không phạt"], c: 1}, // Adjusted to sensible bike fine roughly
+                    {q: "Mức phạt vượt đèn đỏ xe máy (tham khảo)?", a: ["A. 1-2 triệu", "B. 800k - 1 triệu", "C. 500k", "D. Không phạt"], c: 1},
                     {q: "Điều quan trọng nhất khi giao thông ngày Tết?", a: ["A. Đi nhanh", "B. An toàn & Đúng luật", "C. Chở nhiều quà", "D. Xe mới"], c: 1}
                 ];
 
                 this.currentQ = 0;
                 this.score = 0;
+                this.btnColors = [0x2980b9, 0x8e44ad, 0xd35400, 0xc0392b]; // Xanh, Tím, Cam, Đỏ đậm
 
                 this.setupUI();
                 this.showQuestion();
             }
 
             setupUI() {
-                this.qText = this.add.text(width/2, 100, '', { fontSize: '24px', color: '#FFF', align: 'center', wordWrap: { width: 800 } }).setOrigin(0.5);
-                this.scoreText = this.add.text(width - 100, 50, 'Điểm: 0', { fontSize: '24px', color: '#f1c40f' }).setOrigin(0.5);
-                this.progressText = this.add.text(100, 50, 'Câu: 1/30', { fontSize: '24px', color: '#FFF' }).setOrigin(0.5);
+                // Hộp chứa câu hỏi (Màu trắng, viền cam)
+                const qBox = this.add.rectangle(width/2, 100, 850, 120, 0xFFFFFF);
+                qBox.setStrokeStyle(4, 0xFF9800);
+                // Chữ câu hỏi màu tối
+                this.qText = this.add.text(width/2, 100, '', { fontSize: '26px', color: '#333', align: 'center', fontStyle: 'bold', wordWrap: { width: 800 } }).setOrigin(0.5);
+                
+                // Điểm và tiến độ
+                this.scoreText = this.add.text(width - 120, 30, 'Điểm: 0', { fontSize: '24px', color: '#333', fontStyle:'bold' }).setOrigin(0.5);
+                this.progressText = this.add.text(120, 30, 'Câu: 1/30', { fontSize: '24px', color: '#333', fontStyle:'bold' }).setOrigin(0.5);
 
                 this.btns = [];
                 const positions = [
@@ -478,14 +483,15 @@
                 ];
 
                 for (let i = 0; i < 4; i++) {
-                    const btn = this.add.rectangle(positions[i].x, positions[i].y, 400, 100, 0x34495e).setInteractive({useHandCursor: true});
-                    btn.setStrokeStyle(2, 0xFFFFFF);
-                    const txt = this.add.text(positions[i].x, positions[i].y, '', { fontSize: '20px', color: '#FFF', align: 'center', wordWrap: { width: 380 } }).setOrigin(0.5);
+                    // Nút màu sắc
+                    const btn = this.add.rectangle(positions[i].x, positions[i].y, 400, 100, this.btnColors[i]).setInteractive({useHandCursor: true});
+                    btn.setStrokeStyle(4, 0xFFFFFF); // Viền trắng nổi bật
+                    const txt = this.add.text(positions[i].x, positions[i].y, '', { fontSize: '22px', color: '#FFF', fontStyle:'bold', align: 'center', wordWrap: { width: 380 } }).setOrigin(0.5);
                     
                     btn.on('pointerdown', () => this.checkAnswer(i));
-                    // Hover effect
-                    btn.on('pointerover', () => btn.setFillStyle(0x4a69bd));
-                    btn.on('pointerout', () => btn.setFillStyle(0x34495e));
+                    // Hiệu ứng hover phóng to
+                    btn.on('pointerover', () => btn.setScale(1.05));
+                    btn.on('pointerout', () => btn.setScale(1));
 
                     this.btns.push({ btn, txt });
                 }
@@ -496,10 +502,10 @@
                 this.qText.setText(qData.q);
                 this.progressText.setText(`Câu: ${this.currentQ + 1}/${this.questions.length}`);
                 
-                // Reset buttons
+                // Reset buttons color and state
                 this.btns.forEach((b, i) => {
                     b.txt.setText(qData.a[i]);
-                    b.btn.setFillStyle(0x34495e).setInteractive();
+                    b.btn.setFillStyle(this.btnColors[i]).setInteractive().setScale(1);
                 });
             }
 
@@ -514,10 +520,10 @@
                 if (idx === correctIdx) {
                     this.score++;
                     this.scoreText.setText(`Điểm: ${this.score}`);
-                    selectedBtn.btn.setFillStyle(0x27ae60); // Green
+                    selectedBtn.btn.setFillStyle(0x2ecc71); // Xanh lá tươi (Đúng)
                 } else {
-                    selectedBtn.btn.setFillStyle(0xc0392b); // Red
-                    correctBtn.btn.setFillStyle(0x27ae60); // Show correct one
+                    selectedBtn.btn.setFillStyle(0xe74c3c); // Đỏ tươi (Sai)
+                    correctBtn.btn.setFillStyle(0x2ecc71); // Hiện đáp án đúng
                 }
 
                 // Next question
@@ -532,12 +538,12 @@
             }
 
             finishLevel() {
-                this.add.rectangle(width/2, height/2, 600, 400, 0x000000, 0.9).setDepth(100);
-                this.add.text(width/2, height/2 - 50, 'HOÀN THÀNH!', { fontSize: '50px', color: '#f1c40f', fontStyle: 'bold' }).setOrigin(0.5).setDepth(101);
-                this.add.text(width/2, height/2 + 20, `Tổng điểm: ${this.score}/30`, { fontSize: '40px', color: '#FFF' }).setOrigin(0.5).setDepth(101);
+                this.add.rectangle(width/2, height/2, 600, 400, 0xFFFFFF).setStrokeStyle(5, 0xFF9800).setDepth(100);
+                this.add.text(width/2, height/2 - 50, 'HOÀN THÀNH!', { fontSize: '50px', color: '#FF9800', fontStyle: 'bold' }).setOrigin(0.5).setDepth(101);
+                this.add.text(width/2, height/2 + 20, `Tổng điểm: ${this.score}/30`, { fontSize: '40px', color: '#333' }).setOrigin(0.5).setDepth(101);
                 
-                const backBtn = this.add.text(width/2, height/2 + 100, 'VỀ MENU', { fontSize: '30px', backgroundColor: '#3498db', padding: {x:20, y:10} })
-                    .setOrigin(0.5).setInteractive({useHandCursor:true}).setDepth(101);
+                const backBtn = this.add.rectangle(width/2, height/2 + 120, 250, 60, 0x2980b9).setInteractive({useHandCursor:true}).setDepth(101);
+                this.add.text(width/2, height/2 + 120, 'VỀ MENU CHÍNH', { fontSize: '24px', color:'#FFF', fontStyle:'bold' }).setOrigin(0.5).setDepth(102);
                 
                 backBtn.on('pointerdown', () => this.scene.start('MainMenu'));
             }
